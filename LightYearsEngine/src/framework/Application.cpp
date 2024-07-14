@@ -1,12 +1,14 @@
-#include <iostream>
 #include "framework/Application.h"
+#include "framework/Core.h"
+#include "framework/World.h"
 
 namespace ly
 {
 	Application::Application()
 		: mWindow{ sf::VideoMode(1024, 1440), "Light Years" },
 		mTargetFramerate{ 60.f },
-		mTick{}
+		mTick{},
+		currentWorld{nullptr}
 	{
 
 	}
@@ -26,6 +28,7 @@ namespace ly
 					mWindow.close();
 				}
 			}
+			float frameDeltaTime = mTick.restart().asSeconds();
 			accumulatedTime += mTick.restart().asSeconds();
 			while (accumulatedTime > targetDeltaTime)
 			{
@@ -38,6 +41,12 @@ namespace ly
 	void Application::TickInternal(float deltaTime)
 	{
 		Tick(deltaTime);
+
+		if (currentWorld)
+		{
+			currentWorld->TickInternal(deltaTime);
+		}
+		
 	}
 
 	void Application::RenderInternal()
@@ -60,7 +69,7 @@ namespace ly
 
 	void Application::Tick(float deltaTime)
 	{
-		//std::cout << "Framerate: " << 1.f / deltaTime << std::endl;
+		
 	}
 
 }
