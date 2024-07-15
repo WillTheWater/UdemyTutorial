@@ -4,15 +4,14 @@
 
 namespace ly
 {
-	Application::Application()
-		: mWindow{ sf::VideoMode(1024, 1440), "Light Years" },
+	Application::Application(unsigned int windowWidth, unsigned int windowHeight, const std::string windowTitle, sf::Uint32 windowStyle)
+		: mWindow{ sf::VideoMode(windowWidth, windowHeight), windowTitle, windowStyle },
 		mTargetFramerate{ 60.f },
 		mTick{},
-		currentWorld{nullptr}
+		currentWorld{ nullptr }
 	{
 
 	}
-
 	void Application::Run()
 	{
 		mTick.restart();
@@ -29,7 +28,7 @@ namespace ly
 				}
 			}
 			float frameDeltaTime = mTick.restart().asSeconds();
-			accumulatedTime += mTick.restart().asSeconds();
+			accumulatedTime += frameDeltaTime;
 			while (accumulatedTime > targetDeltaTime)
 			{
 				accumulatedTime -= targetDeltaTime;
@@ -60,11 +59,10 @@ namespace ly
 
 	void Application::Render()
 	{
-		sf::RectangleShape rect{ sf::Vector2f{100, 100} };
-		rect.setOrigin( 50, 50 );
-		rect.setFillColor(sf::Color::Green);
-		rect.setPosition(mWindow.getSize().x / 2.f, mWindow.getSize().y / 2.f);
-		mWindow.draw(rect);
+		if (currentWorld)
+		{
+			currentWorld->Render(mWindow);
+		}
 	}
 
 	void Application::Tick(float deltaTime)
