@@ -26,6 +26,8 @@ namespace ly
 		sf::Clock mTick;
 
 		shared<World> currentWorld;
+		sf::Clock mCleanCycleClock;
+		float mCleanCycleIterval;
 
 	};
 
