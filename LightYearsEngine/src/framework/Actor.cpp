@@ -2,6 +2,7 @@
 #include "framework/Core.h"
 #include "framework/AssetManager.h"
 #include "framework/MathUtility.h"
+#include "framework/World.h"
 
 namespace ly
 {
@@ -11,7 +12,7 @@ namespace ly
 		mSprite{},
 		mTexture{}
 	{
-
+		SetTexture(texturePath);
 	}
 
 	Actor::~Actor()
@@ -103,6 +104,11 @@ namespace ly
 	sf::Vector2f Actor::GetActorRightVector() const
 	{
 		return RotationToVector(GetActorRotation() + 90.f);
+	}
+
+	sf::Vector2u Actor::GetWindowSize() const
+	{
+		return mOwningworld->GetWindowSize();
 	}
 
 	void Actor::PivotOnOrigin()

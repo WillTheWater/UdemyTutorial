@@ -27,6 +27,8 @@ namespace ly
 		sf::Vector2f GetActorForwardVector() const;
 		sf::Vector2f GetActorRightVector() const;
 
+		sf::Vector2u GetWindowSize() const;
+
 	private:
 		void PivotOnOrigin();
 		World* mOwningworld;

@@ -27,7 +27,7 @@ namespace ly
 			return newTexture;
 		}
 
-		return shared<sf::Texture> {nullptr };
+		return shared<sf::Texture> {nullptr};
 
 	}
 	void AssetManager::CleanCycle()

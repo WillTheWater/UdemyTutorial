@@ -1,12 +1,15 @@
 #include "player/PlayerSpaceship.h"
 #include "SFML/System.hpp"
+#include "framework/MathUtility.h"
+#include "weapon/BulletShooter.h"
 
 namespace ly
 {
 	PlayerSpaceship::PlayerSpaceship(World* owningWorld, const std::string& path)
 		: Spaceship{ owningWorld, path },
 		mMove{},
-		mSpeed{ 200.f }
+		mSpeed{ 200.f },
+		mShooter{new BulletShooter{this}}
 	{
 	}
 	void PlayerSpaceship::Tick(float deltaTime)
@@ -14,6 +17,14 @@ namespace ly
 		Spaceship::Tick(deltaTime);
 		Input();
 		UseInput(deltaTime);
+
+	}
+	void PlayerSpaceship::Shoot()
+	{
+		if (mShooter)
+		{
+			mShooter->Shoot();
+		}
 
 	}
 	void PlayerSpaceship::Input()
@@ -33,6 +44,39 @@ namespace ly
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			mMove.x = 1.f;
+		}
+
+		ClampInput();
+
+		NormalizeVector();
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			Shoot();
+		}
+	}
+	void PlayerSpaceship::NormalizeVector()
+	{
+		Normalize(mMove);
+	}
+	void PlayerSpaceship::ClampInput()
+	{
+		sf::Vector2f actorLocation = GetActorLocation();
+		if (actorLocation.x < 0 && mMove.x == -1.f)
+		{
+			mMove.x = 0.f;
+		}
+		if (actorLocation.x > GetWindowSize().x && mMove.x == 1.f)
+		{
+			mMove.x = 0.f;
+		}
+		if (actorLocation.y < 0 && mMove.y == -1.f)
+		{
+			mMove.y = 0.f;
+		}
+		if (actorLocation.y > GetWindowSize().y && mMove.y == 1.f)
+		{
+			mMove.y = 0.f;
 		}
 	}
 	void PlayerSpaceship::UseInput(float deltaTime)
