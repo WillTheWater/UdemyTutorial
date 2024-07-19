@@ -3,6 +3,7 @@
 #include <memory>
 #include <map>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace ly
 {
@@ -25,6 +26,9 @@ using Map = std::map<keyType, valueType, Pr>;
 
 template<typename keyType, typename valueType, typename Hasher = std::hash<keyType>>
 using Dictionary = std::unordered_map<keyType, valueType, Hasher>;
+
+template<typename T>
+using Set = std::unordered_set<T>;
 
 //Macro
 #define LOG(M, N) printf(M "\n", N)

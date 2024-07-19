@@ -14,5 +14,6 @@ namespace ly
 		virtual void Tick(float deltaTime) override;
 	private:
 		weak<PlayerSpaceship> testPlayerSpaceship;
+		float counter = 0.f;
 	};
 }

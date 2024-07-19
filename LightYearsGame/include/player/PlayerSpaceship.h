@@ -13,6 +13,7 @@ namespace ly
 		void SetSpeed(float newSpeed) { mSpeed = newSpeed; }
 		float GetSpeed() const { return mSpeed; }
 		virtual void Shoot() override;
+
 	private:
 		void Input();
 		void NormalizeVector();

@@ -9,7 +9,7 @@ namespace ly
 		: Spaceship{ owningWorld, path },
 		mMove{},
 		mSpeed{ 200.f },
-		mShooter{new BulletShooter{this}}
+		mShooter{new BulletShooter{this, 0.2f}}
 	{
 	}
 	void PlayerSpaceship::Tick(float deltaTime)
@@ -27,6 +27,7 @@ namespace ly
 		}
 
 	}
+	
 	void PlayerSpaceship::Input()
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))

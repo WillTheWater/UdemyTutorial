@@ -2,6 +2,7 @@
 #include "framework/Core.h"
 #include "framework/World.h"
 #include "framework/AssetManager.h"
+#include "framework/PhysicsSystem.h"
 
 namespace ly
 {
@@ -25,7 +26,7 @@ namespace ly
 			sf::Event WindowEvent;
 			while (mWindow.pollEvent(WindowEvent))
 			{
-				if (WindowEvent.type == sf::Event::EventType::Closed)
+				if (WindowEvent.type == sf::Event::EventType::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 				{
 					mWindow.close();
 				}
@@ -52,13 +53,22 @@ namespace ly
 		{
 			currentWorld->TickInternal(deltaTime);
 		}
+
+		PhysicsSystem::Get().Step(deltaTime);
 		
 		if (mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleIterval)
 		{
 			mCleanCycleClock.restart();
 			AssetManager::Get().CleanCycle();
+			if (currentWorld)
+			{
+				currentWorld->CleanCycle();
+			}
 
 		}
+
+
+
 	}
 
 	void Application::RenderInternal()

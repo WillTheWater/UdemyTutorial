@@ -16,7 +16,7 @@ namespace ly
 		LOG("Object Destroyed", "\n");
 	}
 
-	void Object::Destory()
+	void Object::Destroy()
 	{
 		mIsPendingDestroy = true;
 	}
