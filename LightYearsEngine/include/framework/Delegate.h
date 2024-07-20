@@ -1,0 +1,46 @@
+#pragma once
+#include <functional>
+#include "framework/Core.h"
+
+namespace ly
+{
+	class Object;
+	template<typename...Args>
+	class Delegate
+	{
+	public:
+		template<typename ClassName> 
+		void BindAction(weak<Object> object, void(ClassName::* callback)(Args...))
+		{
+			std::function<bool(Args...)> callbackFunction = [object, callback](Args... args)->bool
+			{
+				if (!object.expired())
+				{
+					(static_cast<ClassName*>(object.lock().get())->*callback)(args...);
+					return true;
+				}
+			};
+
+			mCallbacks.push_back(callbackFunction);
+		}
+
+		void Broadcast(Args...args)
+		{
+			for (auto iter = mCallbacks.begin(); iter != mCallbacks.end();)
+			{
+				if ((*iter)(args...))
+				{
+					++iter;
+				}
+				else
+				{
+					iter = mCallbacks.erase(iter);
+				}
+			}
+		}
+
+	private:
+		List<std::function<bool(Args...)>> mCallbacks;
+
+	};
+}

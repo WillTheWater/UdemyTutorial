@@ -1,5 +1,4 @@
 #include "Framework/Object.h"
-#include "framework/Core.h"
 
 namespace ly
 {
@@ -19,6 +18,16 @@ namespace ly
 	void Object::Destroy()
 	{
 		mIsPendingDestroy = true;
+	}
+
+	weak<Object> Object::GetWeakReference()
+	{
+		return weak_from_this();
+	}
+
+	weak<const Object> Object::GetWeakReference() const
+	{
+		return weak_from_this();
 	}
 	
 }
