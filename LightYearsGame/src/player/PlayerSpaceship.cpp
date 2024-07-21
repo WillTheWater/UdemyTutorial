@@ -11,6 +11,7 @@ namespace ly
 		mSpeed{ 200.f },
 		mShooter{new BulletShooter{this, 0.2f}}
 	{
+		SetTeamID(1);
 	}
 	void PlayerSpaceship::Tick(float deltaTime)
 	{
@@ -51,7 +52,7 @@ namespace ly
 
 		NormalizeVector();
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			Shoot();
 		}

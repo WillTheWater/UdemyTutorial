@@ -30,6 +30,8 @@ using Dictionary = std::unordered_map<keyType, valueType, Hasher>;
 template<typename T>
 using Set = std::unordered_set<T>;
 
+using uint8 = unsigned char;
+
 //Macro
 #define LOG(M, N) printf(M "\n", N)
 

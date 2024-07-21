@@ -13,9 +13,18 @@ namespace ly
 		sf::Vector2f GetVelocity() const { return mVelocity;}
 		virtual void Shoot();
 		virtual void BeginPlay() override;
+		virtual void ApplyDamage(float amount) override;
 	private:
-		void OnHealthChange(float amount, float health, float maxHealth);
+		void Blink();
+		void UpdateBlink(float deltaTime);
+		virtual void OnHealthChange(float amount, float health, float maxHealth);
+		virtual void OnTakeDamage(float amount, float health, float maxHealth);
+		virtual void Die();
 		sf::Vector2f mVelocity;
 		HealthComponent mHealthComponent;
+
+		float mBlinkTime;
+		float mBlinkDuration;
+		sf::Color mBlinkColorOffest;
 	};
 }

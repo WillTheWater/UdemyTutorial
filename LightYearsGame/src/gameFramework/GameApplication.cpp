@@ -25,6 +25,7 @@ namespace ly
 		testShip.lock()->SetTexture("SpaceShooterRedux/PNG/playerShip1_blue.png");
 		testShip.lock()->SetActorLocation(sf::Vector2f(100.f, 290.f));
 		testShip.lock()->SetActorRotation(0.f);
+		testShip.lock()->SetTeamID(2);
 		counter = 0.f;
 
 	}
@@ -32,12 +33,12 @@ namespace ly
 	void GameApplication::Tick(float deltaTime)
 	{
 		counter += deltaTime;
-		if (counter > 10.f)
+		/*if (counter > 10.f)
 		{
 			if (!testPlayerSpaceship.expired())
 			{
 				testPlayerSpaceship.lock()->Destroy();
 			}
-		}
+		}*/
 	}
 }
