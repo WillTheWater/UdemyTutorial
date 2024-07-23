@@ -13,7 +13,7 @@ namespace ly
 
 	private:
 		virtual void BeginPlay() override;
-		void TimerCallback_Test();
+		
 
 		weak<PlayerSpaceship> testPlayerSpaceship;
 
