@@ -2,12 +2,29 @@
 
 namespace ly
 {
+	
 	unique<TimerManager> TimerManager::timerManager{ nullptr };
+
 	void TimerManager::UpdateTimer(float deltaTime)
 	{
-		for (Timer& timer : mTimers)
+		for (auto iter = mTimers.begin(); iter != mTimers.end();)
 		{
-			timer.TickTime(deltaTime);
+			if (iter->second.Expired()){ iter = mTimers.erase(iter); }
+			else { iter->second.TickTime(deltaTime); ++iter; }
+		}
+	}
+
+	bool operator==(const TimerHandle& lhs, const TimerHandle& rhs)
+	{
+		return lhs.GetTimerKey() == rhs.GetTimerKey();
+	}
+
+	void TimerManager::ClearTimer(TimerHandle timerHandle)
+	{
+		auto iter = mTimers.find(timerHandle);
+		if (iter != mTimers.end())
+		{
+			iter->second.SetExpired();
 		}
 	}
 	TimerManager::TimerManager() :mTimers{}
@@ -50,5 +67,11 @@ namespace ly
 	void Timer::SetExpired()
 	{
 		mIsExpired = true;
+	}
+	unsigned int TimerHandle::mTimerKeyCounter = 0;
+	TimerHandle::TimerHandle()
+		: mTimerKey{GetNextTimerKey()}
+	{
+
 	}
 }

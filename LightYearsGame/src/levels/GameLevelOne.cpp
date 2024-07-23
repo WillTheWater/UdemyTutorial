@@ -4,6 +4,7 @@
 #include "framework/AssetManager.h"
 #include "player/PlayerSpaceship.h"
 #include "enemy/Vanguard.h"
+#include "gameplay/GameStage.h"
 #include "framework/TimerManager.h"
 
 namespace ly
@@ -21,10 +22,15 @@ namespace ly
 	}
 	void GameLevelOne::BeginPlay()
 	{
-		TimerManager::Get().SetTimer(GetWeakReference(), &GameLevelOne::TimerCallback_Test, 1.f, true);
+		timerHandle_test = TimerManager::Get().SetTimer(GetWeakReference(), &GameLevelOne::TimerCallback_Test, 1.f, true);
 	}
 	void GameLevelOne::TimerCallback_Test()
 	{
 		LOG("Game Timer Called", "\n");
+		TimerManager::Get().ClearTimer(timerHandle_test);
+	}
+	void GameLevelOne::InitGameStages()
+	{
+		AddStage(shared<GameStage>{new GameStage{ this }});
 	}
 }
