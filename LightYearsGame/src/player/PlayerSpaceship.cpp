@@ -2,6 +2,7 @@
 #include "SFML/System.hpp"
 #include "framework/MathUtility.h"
 #include "weapon/BulletShooter.h"
+#include "weapon/BladeShooter.h"
 
 namespace ly
 {
@@ -27,6 +28,16 @@ namespace ly
 			mShooter->Shoot();
 		}
 
+	}
+
+	void PlayerSpaceship::SetShooter(unique<Shooter>&& newShooter)
+	{
+		if (mShooter && typeid(*mShooter.get()) == typeid(*newShooter.get()))
+		{
+			mShooter->IncreaseLevel();
+			return;
+		}
+		mShooter = std::move(newShooter);
 	}
 	
 	void PlayerSpaceship::Input()

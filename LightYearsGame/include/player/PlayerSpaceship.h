@@ -3,7 +3,7 @@
 
 namespace ly
 {
-	class BulletShooter;
+	class Shooter;
 	class PlayerSpaceship : public Spaceship
 	{
 	public:
@@ -13,6 +13,7 @@ namespace ly
 		void SetSpeed(float newSpeed) { mSpeed = newSpeed; }
 		float GetSpeed() const { return mSpeed; }
 		virtual void Shoot() override;
+		void SetShooter(unique<Shooter>&& newShooter);
 
 	private:
 		void Input();
@@ -22,6 +23,6 @@ namespace ly
 		sf::Vector2f mMove;
 		float mSpeed;
 
-		unique<BulletShooter> mShooter;
+		unique<Shooter> mShooter;
 	};
 }
