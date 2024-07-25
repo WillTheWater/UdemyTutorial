@@ -11,6 +11,7 @@
 #include "gameplay/GameStage.h"
 #include "gameplay/WaitStage.h"
 #include "player/PlayerSpaceship.h"
+#include "player/PlayerManager.h"
 
 
 
@@ -21,14 +22,29 @@ namespace ly
 	GameLevelOne::GameLevelOne(Application* owningApp)
 		: World{owningApp}
 	{
-		testPlayerSpaceship = SpawnActor<PlayerSpaceship>();
-		testPlayerSpaceship.lock()->SetActorLocation(sf::Vector2f(300.f, 490.f));
-		testPlayerSpaceship.lock()->SetActorRotation(0.f);
-
 
 	}
 	void GameLevelOne::BeginPlay()
 	{
+		Player newPlayer = PlayerManager::Get().CreateNewPlayer();
+		mPlayerSpaceship = newPlayer.SpawnPlayerSpaceship(this);
+		mPlayerSpaceship.lock()->onActorDestroyed.BindAction(GetWeakReference(), &GameLevelOne::PlayerSpaceshipDestroyed);
+	}
+
+	void GameLevelOne::PlayerSpaceshipDestroyed(Actor* playerDeath)
+	{
+		mPlayerSpaceship = PlayerManager::Get().GetPlayer()->SpawnPlayerSpaceship(this); 
+		if (!mPlayerSpaceship.expired())
+		{
+			mPlayerSpaceship.lock()->onActorDestroyed.BindAction(GetWeakReference(), &GameLevelOne::PlayerSpaceshipDestroyed);
+
+		}
+		else { GameOver(); }
+	}
+
+	void GameLevelOne::GameOver()
+	{
+		LOG("============================    Game Over    =============================", "\n");
 	}
 
 	void GameLevelOne::InitGameStages()
