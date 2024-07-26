@@ -11,9 +11,11 @@ ly::Application* GetApplication()
 namespace ly
 {
 	GameApplication::GameApplication()
-		:Application{600, 980, "Light Years", sf::Style::Titlebar | sf::Style::Close}
+		:Application{1200, 1960, "Light Years", sf::Style::Titlebar | sf::Style::Close}
 	{
 		AssetManager::Get().SetAssetRootDirectory(GetResourceDir());
 		weak<GameLevelOne> newWorld = loadWorld<GameLevelOne>();
 	}
+	//	ORIGINAL	:Application{600, 980, "Light Years", sf::Style::Titlebar | sf::Style::Close}
+
 }

@@ -12,37 +12,19 @@ namespace ly
 		}
 		return *assetManager;
 	}
-	shared<sf::Texture> AssetManager::LoadTecture(const std::string& path)
+	shared<sf::Texture> AssetManager::LoadTexture(const std::string& path)
 	{
-		auto found = mLoadTextureMap.find(path);
-		if (found != mLoadTextureMap.end())
-		{
-			return found->second;
-		}
+		return LoadAsset(path, mLoadTextureMap);
 
-		shared<sf::Texture> newTexture{ new sf::Texture };
-		if (newTexture->loadFromFile(mRootDirectory + path))
-		{
-			mLoadTextureMap.insert({ path, newTexture });
-			return newTexture;
-		}
-
-		return shared<sf::Texture> {nullptr};
-
+	}
+	shared<sf::Font> AssetManager::LoadFont(const std::string& path)
+	{
+		return LoadAsset(path, mLoadFontMap);
 	}
 	void AssetManager::CleanCycle()
 	{
-		for (auto iter = mLoadTextureMap.begin(); iter != mLoadTextureMap.end();)
-		{
-			if (iter->second.unique())
-			{
-					iter = mLoadTextureMap.erase(iter);
-			}
-			else
-			{
-				++iter;
-			}
-		}
+		CleanUniqueRef(mLoadTextureMap);
+		CleanUniqueRef(mLoadFontMap);
 	}
 	void AssetManager::SetAssetRootDirectory(const std::string& directory)
 	{

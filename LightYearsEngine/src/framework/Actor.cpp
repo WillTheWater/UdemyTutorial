@@ -52,7 +52,7 @@ namespace ly
 
 	void Actor::SetTexture(const std::string& texturePath)
 	{
-		mTexture = AssetManager::Get().LoadTecture(texturePath);
+		mTexture = AssetManager::Get().LoadTexture(texturePath);
 		if (!mTexture) return;
 
 		mSprite.setTexture(*mTexture);
