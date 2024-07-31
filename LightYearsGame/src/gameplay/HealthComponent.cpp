@@ -24,6 +24,8 @@ namespace ly
 			mHealth = mMaxHealth;
 		}
 
+		onHealthChange.Broadcast(amount, mHealth, mMaxHealth);
+
 		if (amount < 0)
 		{
 			TakenDamage(-amount);
@@ -33,7 +35,6 @@ namespace ly
 			}
 		}
 
-		onHealthChange.Broadcast(amount, mHealth, mMaxHealth);
 
 	}
 	void HealthComponent::TakenDamage(float amount)
@@ -44,4 +45,5 @@ namespace ly
 	{
 		onHealthEmpty.Broadcast();
 	}
+
 }

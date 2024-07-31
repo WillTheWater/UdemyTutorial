@@ -16,9 +16,10 @@ namespace ly
 
 		void SetString(const std::string& newString);
 		void SetFontSize(unsigned int newSize);
+		virtual sf::FloatRect GetBound() const override;
 
 	private:
-		virtual void LocationUdate(const sf::Vector2f& newLocation) override;
+		virtual void LocationUpdate(const sf::Vector2f& newLocation) override;
 		virtual void RotationUpdate(float newRotation) override;
 		virtual void Draw(sf::RenderWindow windowRef);
 		shared<sf::Font> mFont;

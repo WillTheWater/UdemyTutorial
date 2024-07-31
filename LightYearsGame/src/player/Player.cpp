@@ -24,6 +24,7 @@ namespace ly
 		}
 		else
 		{
+			mCurrentPlayerSpaceship = weak<PlayerSpaceship>{};
 			onPlayerDeath.Broadcast();
 		}
 		return weak<PlayerSpaceship>{};

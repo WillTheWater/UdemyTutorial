@@ -16,13 +16,15 @@ namespace ly
 
 		void SetVisiblity(bool newVisibility);
 		bool GetVisibility() const { return mIsVisible; }
+		virtual sf::FloatRect GetBound() const;
+		sf::Vector2f GetCenterPosition() const;
 
 	protected:
 		Widget();
 
 	private:
 		virtual void Draw(sf::RenderWindow& windowRef);
-		virtual void LocationUdate(const sf::Vector2f& newLocation);
+		virtual void LocationUpdate(const sf::Vector2f& newLocation);
 		virtual void RotationUpdate(float newRotation);
 		sf::Transformable mWidgetTransform;
 		bool mIsVisible;

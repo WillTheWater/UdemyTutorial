@@ -16,7 +16,7 @@ namespace ly
 	void Widget::SetWidgetLocation(const sf::Vector2f& newLocation)
 	{
 		mWidgetTransform.setPosition(newLocation);
-		LocationUdate(newLocation);
+		LocationUpdate(newLocation);
 	}
 	void Widget::SetWidgetRotation(float newRotation)
 	{
@@ -27,6 +27,16 @@ namespace ly
 	{
 		mIsVisible = newVisibility;
 	}
+	sf::FloatRect Widget::GetBound() const
+	{
+		return sf::FloatRect();
+	}
+	sf::Vector2f Widget::GetCenterPosition() const
+	{
+		sf::FloatRect bound = GetBound();
+		return sf::Vector2f{ bound.left + bound.width/2, bound.top + bound.height/2 };
+	}
+	
 	Widget::Widget()
 		:mIsVisible{true},
 		mWidgetTransform{}
@@ -35,7 +45,7 @@ namespace ly
 	void Widget::Draw(sf::RenderWindow& windowRef)
 	{
 	}
-	void Widget::LocationUdate(const sf::Vector2f& newLocation)
+	void Widget::LocationUpdate(const sf::Vector2f& newLocation)
 	{
 	}
 	void Widget::RotationUpdate(float newRotation)
