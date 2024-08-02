@@ -17,6 +17,7 @@ namespace ly
 		sf::Vector2u GetWindowSize() const;
 		sf::RenderWindow& GetWindow() { return mWindow; }
 		const sf::RenderWindow& GetWindow() const { return mWindow; }
+		void QuitApplication() { mWindow.close(); }
 
 	private:
 		bool DispatchEvent(const sf::Event& event);
@@ -31,6 +32,7 @@ namespace ly
 		sf::Clock mTick;
 
 		shared<World> mCurrentWorld;
+		shared<World> mPendingWorld;
 		sf::Clock mCleanCycleClock;
 		float mCleanCycleIterval;
 
@@ -40,8 +42,8 @@ namespace ly
 	weak<WorldType> Application::loadWorld()
 	{
 		shared<WorldType> newWorld{ new WorldType{this} };
-		mCurrentWorld = newWorld;
-		mCurrentWorld->BeginPlayInternal();
+		mPendingWorld = newWorld;
+		//mPendingWorld->BeginPlayInternal();
 		return newWorld;
 	}
 

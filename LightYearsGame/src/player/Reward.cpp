@@ -3,6 +3,7 @@
 #include "weapon/ThreeWayShooter.h"
 #include "weapon/BladeShooter.h"
 #include "framework/World.h"
+#include "player/PlayerManager.h"
 
 
 namespace ly
@@ -25,12 +26,16 @@ namespace ly
 	}
 	void Reward::OnActorBeginOverlap(Actor* otherActor)
 	{
-		PlayerSpaceship* playerSpaceship = dynamic_cast<PlayerSpaceship*>(otherActor);
-		if (playerSpaceship != nullptr && !playerSpaceship->IsPendingDestroy())
+		if (!otherActor || otherActor->IsPendingDestroy()) { return; }
+		if (!PlayerManager::Get().GetPlayer()) { return; }
+		weak<PlayerSpaceship> playerSpaceship = PlayerManager::Get().GetPlayer()->GetCurrentSpaceship();
+		if (playerSpaceship.expired() || playerSpaceship.lock()->IsPendingDestroy()) { return; }
+		if (playerSpaceship.lock()->GetUniqueID() == otherActor->GetUniqueID())
 		{
-			mRewardFunction(playerSpaceship);
+			mRewardFunction(playerSpaceship.lock().get());
 			Destroy();
 		}
+
 	}
 	weak<Reward> CreateHealthReward(World* world)
 	{

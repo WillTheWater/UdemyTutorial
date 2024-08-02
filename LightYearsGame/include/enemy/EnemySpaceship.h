@@ -19,11 +19,12 @@ namespace ly
 		);
 
 		virtual void Tick(float deltaTime);
-
+		void SetScoreAward(unsigned int amount);
 
 	private:
 		void SpawnReward();
 		float mCollisionDamage;
+		unsigned int mScoreReward;
 		virtual void OnActorBeginOverlap(Actor* other) override;
 		virtual void DropReward() override;
 		List<RewardFactoryFunction> mRewards;

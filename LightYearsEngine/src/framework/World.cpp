@@ -128,7 +128,11 @@ namespace ly
 	void World::StartStage()
 	{
 		mCurrentStage = mGameStages.begin();
+		if (mCurrentStage != mGameStages.end())
+		{
 		mCurrentStage->get()->StartStage();
 		mCurrentStage->get()->onStageFinished.BindAction(GetWeakReference(), &World::NextGameStage);
+
+		}
 	}
 }

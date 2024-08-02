@@ -19,7 +19,7 @@ namespace ly
 			mCurrentPlayerSpaceship = world->SpawnActor<PlayerSpaceship>();
 			mCurrentPlayerSpaceship.lock()->SetActorLocation(sf::Vector2f(windowSize.x/2.f, windowSize.y - 100.f));
 			mCurrentPlayerSpaceship.lock()->SetActorRotation(0.f);
-			onLifeChage.Broadcast(mLifeCount);
+			onLifeChange.Broadcast(mLifeCount);
 			return mCurrentPlayerSpaceship;
 		}
 		else
@@ -31,14 +31,14 @@ namespace ly
 	}
 	void Player::AddLifeCount(unsigned int lives)
 	{
-		if (lives > 0) { mLifeCount += lives; onLifeChage.Broadcast(mLifeCount); }
+		if (lives > 0) { mLifeCount += lives; onLifeChange.Broadcast(mLifeCount); }
 	}
 	void Player::AddScore(unsigned int score)
 	{
 		if (score > 0)
 		{
 			mScore = score;
-			onScoreChage.Broadcast(mScore);
+			onScoreChange.Broadcast(mScore);
 		}
 
 	}

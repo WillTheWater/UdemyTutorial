@@ -18,8 +18,8 @@ namespace ly
 		void AddScore(unsigned int score);
 		int GetScore() const { return mScore; }
 
-		Delegate<int> onLifeChage;
-		Delegate<int> onScoreChage;
+		Delegate<int> onLifeChange;
+		Delegate<int> onScoreChange;
 		Delegate<> onPlayerDeath;
 	private:
 		unsigned int mLifeCount;

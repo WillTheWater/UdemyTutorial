@@ -10,7 +10,7 @@ namespace ly
 	{
 	public:
 		template<typename ClassName> 
-		void BindAction(weak<Object> object, void(ClassName::* callback)(Args...))
+		void BindAction(weak<Object> object, void(ClassName::*callback)(Args...))
 		{
 			std::function<bool(Args...)> callbackFunction = [object, callback](Args... args)->bool
 			{
@@ -19,6 +19,7 @@ namespace ly
 					(static_cast<ClassName*>(object.lock().get())->*callback)(args...);
 					return true;
 				}
+				return false;
 			};
 
 			mCallbacks.push_back(callbackFunction);

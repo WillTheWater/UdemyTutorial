@@ -29,7 +29,7 @@ namespace ly
 			{
 				if (WindowEvent.type == sf::Event::EventType::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 				{
-					mWindow.close();
+					QuitApplication();
 				}
 				else
 				{
@@ -81,7 +81,11 @@ namespace ly
 			}
 
 		}
-
+		if (mPendingWorld && mPendingWorld != mCurrentWorld)
+		{
+			mCurrentWorld = mPendingWorld;
+			mCurrentWorld->BeginPlayInternal();
+		}
 
 
 	}

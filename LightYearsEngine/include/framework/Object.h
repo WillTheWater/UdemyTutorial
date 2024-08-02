@@ -17,8 +17,12 @@ namespace ly
 		weak<Object> GetWeakReference();
 		weak<const Object> GetWeakReference() const;
 		Delegate<Object*> onDestroy;
+		unsigned int GetUniqueID() const { return mUniqueID; }
 
 	private:
 		bool mIsPendingDestroy;
+		unsigned int mUniqueID;
+		static unsigned int mUniqueIDCounter;
+		static unsigned int GetNextID();
 	};
 }
