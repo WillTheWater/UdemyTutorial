@@ -53,8 +53,8 @@ namespace ly
 
 		const sf::Sprite& GetSprite() const { return mSprite; }
 		sf::Sprite& GetSprite() { return mSprite; }
-
 		Delegate<Actor*> onActorDestroyed;
+		void SetTextureRepeat(bool repeated);
 	private:
 		void InitilizePhysics();
 		void UninitilizePhysics();

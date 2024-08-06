@@ -13,6 +13,7 @@ namespace ly
 
 
 	private:
+		virtual void AllGameStagesFinished() override;
 		virtual void BeginPlay() override;
 		
 
@@ -22,6 +23,9 @@ namespace ly
 		void GameOver();
 		TimerHandle timerHandle_test;
 		virtual void InitGameStages() override;
+		void QuitGame();
+		void Restart();
+		void SpawnCosmetics();
 
 	};
 }

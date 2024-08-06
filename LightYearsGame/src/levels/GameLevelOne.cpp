@@ -5,7 +5,9 @@
 #include "enemy/HexagonStage.h"
 #include "enemy/UFOStage.h"
 #include "framework/Actor.h"
+#include "framework/BackdropActor.h"
 #include "framework/AssetManager.h"
+#include "framework/Application.h"
 #include "framework/TimerManager.h"
 #include "framework/World.h"
 #include "gameplay/GameStage.h"
@@ -25,12 +27,19 @@ namespace ly
 	{
 
 	}
+	void GameLevelOne::AllGameStagesFinished()
+	{
+		mGameplayHUD.lock()->GameFinished(true);
+	}
 	void GameLevelOne::BeginPlay()
 	{
+		SpawnCosmetics();
 		Player& newPlayer = PlayerManager::Get().CreateNewPlayer();
 		mPlayerSpaceship = newPlayer.SpawnPlayerSpaceship(this);
 		mPlayerSpaceship.lock()->onActorDestroyed.BindAction(GetWeakReference(), &GameLevelOne::PlayerSpaceshipDestroyed);
 		mGameplayHUD = SpawnHUD<GameplayHUD>();
+		mGameplayHUD.lock()->OnQuitButtonClick.BindAction(GetWeakReference(), &GameLevelOne::QuitGame);
+		mGameplayHUD.lock()->OnRestartButtonClick.BindAction(GetWeakReference(), &GameLevelOne::Restart);
 	}
 
 	void GameLevelOne::PlayerSpaceshipDestroyed(Actor* playerDeath)
@@ -46,7 +55,7 @@ namespace ly
 
 	void GameLevelOne::GameOver()
 	{
-		LOG("============================    Game Over    =============================", "\n");
+		mGameplayHUD.lock()->GameFinished(false);
 	}
 
 	void GameLevelOne::InitGameStages()
@@ -63,5 +72,17 @@ namespace ly
 		AddStage(shared<WaitStage>{new WaitStage{ this, 1.f }});
 		AddStage(shared<TwinBladeStage>{new TwinBladeStage{ this }});
 		AddStage(shared<TwinBladeStage>{new TwinBladeStage{ this }});
+	}
+	void GameLevelOne::QuitGame()
+	{
+		GetApplication()->QuitApplication();
+	}
+	void GameLevelOne::Restart()
+	{
+		GetApplication()->loadWorld<GameLevelOne>();
+	}
+	void GameLevelOne::SpawnCosmetics()
+	{
+		auto backdropActor = SpawnActor<BackdropActor>("SpaceShooterRedux/Backgrounds/darkPurple.png");
 	}
 }

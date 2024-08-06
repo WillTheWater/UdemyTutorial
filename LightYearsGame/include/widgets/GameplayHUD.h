@@ -16,7 +16,9 @@ namespace ly
 		virtual void Draw(sf::RenderWindow& windowRef) override;
 		virtual void Tick(float deltaTime) override;
 		virtual bool HandleEvent(const sf::Event& event) override;
-
+		void GameFinished(bool playerWon);
+		Delegate<> OnRestartButtonClick;
+		Delegate<> OnQuitButtonClick;
 
 	private:
 		virtual void Init(const sf::RenderWindow& windowRef) override;
@@ -25,6 +27,8 @@ namespace ly
 		void PlayerHealthUpdate(float amount, float currentHealth, float maxHealth);
 		void PlayerLivesUpdate(int amount);
 		void PlayerSpaceshipDestroyed(Actor* actor);
+		void RestartButtonClicked();
+		void QuitButtonClicked();
 		TextWidget mFrameRateText;
 		ValueGauge mPlayerHealthBar;
 		ImageWidget mPlayerIcon;
@@ -39,5 +43,11 @@ namespace ly
 		sf::Color mRedHealth;
 		float mDangerZone;
 		float mWidgetSpacing;
+
+		TextWidget mWinLoseText;
+		TextWidget mFinalScore;
+		Button mRestartButton;
+		Button mQuitButton;
+
 	};
 }

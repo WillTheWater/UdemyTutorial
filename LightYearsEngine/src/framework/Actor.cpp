@@ -196,6 +196,11 @@ namespace ly
 	{
 	}
 
+	void Actor::SetTextureRepeat(bool repeated)
+	{
+		mTexture->setRepeated(repeated);
+	}
+
 	void Actor::InitilizePhysics()
 	{
 		if(!mPhysicsBody)

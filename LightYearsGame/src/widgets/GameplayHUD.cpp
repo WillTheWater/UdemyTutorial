@@ -16,9 +16,17 @@ namespace ly
 		mGreenHealth{128,255,128,255},
 		mRedHealth{255,0,0,255},
 		mDangerZone{0.3f},
-		mWidgetSpacing{10.f}
+		mWidgetSpacing{10.f},
+		mWinLoseText{""},
+		mFinalScore{""},
+		mRestartButton{"Restart"},
+		mQuitButton{"Quit"}
 	{
 		mFrameRateText.SetFontSize(60);
+		mWinLoseText.SetVisiblity(false);
+		mFinalScore.SetVisiblity(false);
+		mRestartButton.SetVisiblity(false);
+		mQuitButton.SetVisiblity(false);
 	}
 	void GameplayHUD::Draw(sf::RenderWindow& windowRef)
 	{
@@ -28,6 +36,10 @@ namespace ly
 		mPlayerLivesText.NativeDraw(windowRef);
 		mPlayerScoreIcon.NativeDraw(windowRef);
 		mPlayerScoreText.NativeDraw(windowRef);
+		mWinLoseText.NativeDraw(windowRef);
+		mFinalScore.NativeDraw(windowRef);
+		mRestartButton.NativeDraw(windowRef);
+		mQuitButton.NativeDraw(windowRef);
 	}
 	void GameplayHUD::Tick(float deltaTime)
 	{
@@ -37,6 +49,8 @@ namespace ly
 	}
 	bool GameplayHUD::HandleEvent(const sf::Event& event)
 	{
+		if (mRestartButton.HandleEvent(event)) { return true; }
+		if (mQuitButton.HandleEvent(event)) { return true; }
 		return HUD::HandleEvent(event);
 	}
 	void GameplayHUD::Init(const sf::RenderWindow& windowRef)
@@ -57,6 +71,12 @@ namespace ly
 
 		RefreshHealthBar();
 		PlayerLives();
+
+		mWinLoseText.SetWidgetLocation({ windowSize.x / 2.f, 200.f });
+		mRestartButton.SetWidgetLocation({ windowSize.x / 2.f, windowSize.y / 2.f });
+		mQuitButton.SetWidgetLocation({ windowSize.x / 2.f, windowSize.y / 2.f + 100.f });
+		mRestartButton.onButtonClicked.BindAction(GetWeakReference(), &GameplayHUD::RestartButtonClicked);
+		mQuitButton.onButtonClicked.BindAction(GetWeakReference(), &GameplayHUD::QuitButtonClicked);
 		
 
 	}
@@ -95,6 +115,28 @@ namespace ly
 	void GameplayHUD::PlayerSpaceshipDestroyed(Actor* actor)
 	{
 		RefreshHealthBar();
+	}
+
+	void GameplayHUD::RestartButtonClicked()
+	{
+		OnRestartButtonClick.Broadcast();
+	}
+
+	void GameplayHUD::QuitButtonClicked()
+	{
+		OnQuitButtonClick.Broadcast();
+	}
+
+	void GameplayHUD::GameFinished(bool playerWon)
+	{
+		mWinLoseText.SetVisiblity(true);
+		mFinalScore.SetVisiblity(true);
+		mRestartButton.SetVisiblity(true);
+		mQuitButton.SetVisiblity(true);
+
+
+		if (playerWon){ mWinLoseText.SetString("You Win!"); }
+		else { mWinLoseText.SetString("You Lose!"); }
 	}
 
 }
